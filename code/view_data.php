@@ -9,18 +9,12 @@ require_once("s3-object.php");;
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>View Data</title>
-
     <link rel="stylesheet" href="dropzone/dist/dropzone.css" />
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 </head>
 
 <body>
-
     <?php
-    $objects = $s3->getIterator('ListObjects', array(
-        "Bucket" => $bucketName
-    ));
-
+    $objects = $s3->getIterator('ListObjects', array("Bucket" => $bucketName));
     ?>
     <div>
         <table>
@@ -34,12 +28,14 @@ require_once("s3-object.php");;
             <tbody>
                 <?php
                 foreach ($objects as $object) {
+                    $file_name = $object['Key'];
+                    $file_size = $object['Size'];
+                    $object_url = $s3->getObjectUrl($bucketName, $file_name);
                 ?>
                     <tr>
-                        <td><?php echo $object['Key'];
-                            $name = $object['Key']; ?></td>
-                        <td><?php echo $object['Size'];   ?></td>
-                        <td><a target="_blank" href="<?php echo $s3->getObjectUrl($bucketName, $object['Key']); ?>" class="btn btn-outline-primary">View</a></td>
+                        <td><?php echo $file_name; ?></td>
+                        <td><?php echo $file_size;   ?></td>
+                        <td><a target="_blank" href="<?php echo $object_url; ?>">View</a></td>
                     </tr>
                 <?php
                 }
