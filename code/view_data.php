@@ -1,5 +1,6 @@
 <?php
-require_once("s3-object.php");;
+error_reporting(0);
+require_once("s3-object.php");
 ?>
 
 <!DOCTYPE html>
